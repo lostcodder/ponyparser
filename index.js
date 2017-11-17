@@ -2,7 +2,8 @@ var Promise = require('bluebird')
 var request = require("request")
 
 class PonyParser {
-	constructor () {
+	constructor (p = {}) {
+		this.p = p
 		this.jar = request.jar();
 	}
 
@@ -10,6 +11,10 @@ class PonyParser {
 		if (typeof o != 'object'){
 			o = {url: o}
 		} 
+
+		for (var i in this.p) {
+			o[i] = this.p[i]
+		}
 
 		return o
 	}
@@ -19,7 +24,16 @@ class PonyParser {
 		return new Promise((resolve, reject) => {
 			request(o, (e, r, b)=>{
 				if (!e) {
-					resolve(b)
+	                Object.defineProperty(r, "text",{enumerable: false, writable: true});
+	                r.text = () =>{
+	                    return b
+	                }  
+
+	                Object.defineProperty(r, "data",{enumerable: false, writable: true});
+	                r.data = () =>{
+	                    return JSON.parse(b)
+	                }  
+					resolve(r)
 				} else {
 					reject(e)
 				}

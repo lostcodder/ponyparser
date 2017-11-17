@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/lostcodder/ponyparser.git"
   },
-  "author": "",
+  "author": "lostcodder",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lostcodder/ponyparser/issues"
